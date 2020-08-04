@@ -26,7 +26,8 @@ public class BaseTests {
 	homePage = new HomePage(driver);
 	}
 	
-	@AfterAll
+	@AfterAll //JUnit5
+//	@AfterClass //JUnit4
 	public static void finalizar() {
 		driver.quit();
 	}
