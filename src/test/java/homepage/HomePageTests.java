@@ -8,12 +8,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 
 import base.BaseTests;
 import pages.CarrinhoPage;
 import pages.CheckoutPage;
 import pages.LoginPage;
 import pages.ModalProdutoPage;
+import pages.PedidoPage;
 import pages.ProdutoPage;
 import util.Funcoes;
 
@@ -77,6 +80,39 @@ public class HomePageTests extends BaseTests{
 		
 		carregarPaginaInicial();
 	}
+	
+	@ParameterizedTest
+	@CsvFileSource(resources = "massaTeste_Login.csv", numLinesToSkip = 1, delimiter = ';')
+	public void testLogin_UsuarioLogadoComDadosValidos(String nomeTeste, String email, String password, String nomeUsuario,String resultado) {
+	
+		//Clicar no botão SignIn na home page
+				loginPage = homePage.clicarBotaoSignIn();
+				
+				//Preencher usuario e senha
+				loginPage.preencherEmail(email);
+				loginPage.preencherPassword(password);
+				
+				//Clicar no botão SignIn para logar
+				loginPage.clicarBotaoSingnIn();
+				
+				boolean esperado_loginOK;
+				if (resultado.equals("positivo"))
+					esperado_loginOK = true;
+				else
+					esperado_loginOK = false;
+				
+				//Validar se o usuário está logado de fato
+				assertThat(homePage.estaLogado(nomeUsuario), is(esperado_loginOK));
+				
+				capturarTela(nomeTeste, resultado);
+				
+				if(esperado_loginOK)
+					homePage.clicarBotaoSignOut();
+				
+				carregarPaginaInicial();
+	}
+	
+	
 	
 	ModalProdutoPage modalProdutoPage;
 	
@@ -276,5 +312,28 @@ public class HomePageTests extends BaseTests{
 			
 		}
 		
+		@Test
+		public void finalizarPedido_pedidoFinalizadoComSucesso() {
+			//pr-condição
+			//checkout completamente concluido
+			IrParaCheckout_FreteMeioPagamentoEndereçoListadoOk();
+			
+			//Teste
+			//Clicar no botão para confirmar o pedido
+			PedidoPage pedidoPage = checkoutPage.clicarBotaoConfirmaPedido();
+			//Validar valores na tela
+			assertTrue(pedidoPage.obter_textoPedidoConfirmado().endsWith("YOU ORDER IS CONFIRMED"));
+			//assertThat(pedidoPage.obter_textoPedidoConfirmado().toUpperCase(), is("YOU ORDER IS CONFIRMED"));
+			
+			assertThat(pedidoPage.obter_email(), is("alexandra@teste.com"));
+			
+			assertThat(pedidoPage.obter_totalProdutos(), is(esperado_subtotalProduto));
+			
+			assertThat(pedidoPage.obter_totalTaxIncl(), is(esperado_totalTaxIncTotal));
+			
+			assertThat(pedidoPage.obter_email(), is("check"));
+			
+			
+		}
 	
 }

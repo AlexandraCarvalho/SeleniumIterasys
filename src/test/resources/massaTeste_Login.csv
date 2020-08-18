@@ -1,0 +1,3 @@
+nomeTeste;email;password;nomeUsuario;resultado
+loginValido;alexandra@teste.com;12345678;Alexandra Carvalho;positivo
+loginInvalido;alexandra@teste.com;teste123;Alexandra Carvalho;negativo
