@@ -65,17 +65,17 @@ public class HomePageTests extends BaseTests{
 	
 	@Test
 	public void testLoginComSucesso_UsuarioLogado() {
-		//Clicar no botão SignIn na home page
+		//Clicar no botï¿½o SignIn na home page
 		loginPage = homePage.clicarBotaoSignIn();
 		
 		//Preencher usuario e senha
 		loginPage.preencherEmail("alexandra@teste.com");
 		loginPage.preencherPassword("12345678");
 		
-		//Clicar no botão SignIn para logar
+		//Clicar no botï¿½o SignIn para logar
 		loginPage.clicarBotaoSingnIn();
 		
-		//Validar se o usuário está logado de fato
+		//Validar se o usuï¿½rio estï¿½ logado de fato
 		assertThat(homePage.estaLogado("Alexandra Carvalho"), is(true));
 		
 		carregarPaginaInicial();
@@ -85,14 +85,14 @@ public class HomePageTests extends BaseTests{
 	@CsvFileSource(resources = "massaTeste_Login.csv", numLinesToSkip = 1, delimiter = ';')
 	public void testLogin_UsuarioLogadoComDadosValidos(String nomeTeste, String email, String password, String nomeUsuario,String resultado) {
 	
-		//Clicar no botão SignIn na home page
+		//Clicar no botï¿½o SignIn na home page
 				loginPage = homePage.clicarBotaoSignIn();
 				
 				//Preencher usuario e senha
 				loginPage.preencherEmail(email);
 				loginPage.preencherPassword(password);
 				
-				//Clicar no botão SignIn para logar
+				//Clicar no botï¿½o SignIn para logar
 				loginPage.clicarBotaoSingnIn();
 				
 				boolean esperado_loginOK;
@@ -101,7 +101,7 @@ public class HomePageTests extends BaseTests{
 				else
 					esperado_loginOK = false;
 				
-				//Validar se o usuário está logado de fato
+				//Validar se o usuï¿½rio estï¿½ logado de fato
 				assertThat(homePage.estaLogado(nomeUsuario), is(esperado_loginOK));
 				
 				capturarTela(nomeTeste, resultado);
@@ -123,7 +123,7 @@ public class HomePageTests extends BaseTests{
 		String corProduto = "Black";
 		int quantidadeProduto = 2;
 		
-		//--Pré-condição: usuário logado
+		//--Prï¿½-condiï¿½ï¿½o: usuï¿½rio logado
 		if(!homePage.estaLogado("Alexandra Carvalho")) {
 			testLoginComSucesso_UsuarioLogado();
 		}
@@ -153,7 +153,7 @@ public class HomePageTests extends BaseTests{
 		//Adicionar no carrinho
 		modalProdutoPage = produtoPage.clicarBotaoAddToCart();
 		
-		//Validações
+		//Validaï¿½ï¿½es
 		//assertThat(modalProdutoPage.obterMensagemProdutoAdicionado(), is("Product successfully added to your shopping cart"));
 		assertTrue(modalProdutoPage.obterMensagemProdutoAdicionado().endsWith("Product successfully added to your shopping cart"));
 		
@@ -200,7 +200,7 @@ public class HomePageTests extends BaseTests{
 	
 	@Test
 	public void IrParaCarrinho_InformacoesPersistidas() {
-		//--Pré-condições
+		//--Prï¿½-condiï¿½ï¿½es
 		//Produto incluido na tela ModalProdutoPage
 		incluirProdutoNoCarrinho_ProdutoIncluidoComSucesso();
 		
@@ -227,7 +227,7 @@ public class HomePageTests extends BaseTests{
 		System.out.println(Funcoes.removeCifraoDevolveDouble(carrinhoPage.obter_totalTaxIncTotal()));
 		System.out.println(Funcoes.removeCifraoDevolveDouble(carrinhoPage.obter_taxesTotal()));
 		
-		//Asserções Hamcrest
+		//Asserï¿½ï¿½es Hamcrest
 		assertThat(carrinhoPage.obter_nomeProduto(),is(esperado_nomeProduto));
 		assertThat(Funcoes.removeCifraoDevolveDouble(carrinhoPage.obter_precoProduto()),is(esperado_precoProduto));
 		assertThat(carrinhoPage.obter_tamanhoProduto(),is(esperado_tamanhoProduto));
@@ -244,7 +244,7 @@ public class HomePageTests extends BaseTests{
 		assertThat(Funcoes.removeCifraoDevolveDouble(carrinhoPage.obter_totalTaxIncTotal()),is(esperado_totalTaxIncTotal));
 		assertThat(Funcoes.removeCifraoDevolveDouble(carrinhoPage.obter_taxesTotal()),is(esperado_taxesTotal));
 		
-		//Asserções JUnit
+		//Asserï¿½ï¿½es JUnit
 		/*
 		assertEquals(esperado_nomeProduto,carrinhoPage.obter_nomeProduto());
 		assertEquals(esperado_precoProduto,Funcoes.removeCifraoDevolveDouble(carrinhoPage.obter_precoProduto()));
@@ -269,20 +269,20 @@ public class HomePageTests extends BaseTests{
 		CheckoutPage checkoutPage;
 		
 		@Test
-		public void IrParaCheckout_FreteMeioPagamentoEndereçoListadoOk() {
-			//Pré-condições
+		public void IrParaCheckout_FreteMeioPagamentoEnderecoListadoOk() {
+			//Prï¿½-condiï¿½ï¿½es
 			
 			//Produto disponivel no carrinho de compras
 			IrParaCarrinho_InformacoesPersistidas();
 			
 			//Teste
 			
-			//Clicar no botão
+			//Clicar no botï¿½o
 			checkoutPage = carrinhoPage.clicarBotaoProceedToCheckout();
 			
-			//Preencher informações
+			//Preencher informaï¿½ï¿½es
 			
-			//Validar Informações na tela
+			//Validar Informaï¿½ï¿½es na tela
 			assertThat(Funcoes.removeCifraoDevolveDouble(checkoutPage.obter_totalTaxIncTotal()),is(esperado_totalTaxIncTotal));
 			//assertThat(checkoutPage.obter_nomeCliente(), is(esperado_nomeCliente));
 			assertTrue(checkoutPage.obter_nomeCliente().startsWith(esperado_nomeCliente));
@@ -297,7 +297,7 @@ public class HomePageTests extends BaseTests{
 			
 			checkoutPage.clicarBotaoContinueShipping();
 			
-			//Selecionar opção "Pay By Check"
+			//Selecionar opï¿½ï¿½o "Pay By Check"
 			checkoutPage.selecionarRadioPayByCheck();
 			//Validar valor do cheque (amount)
 			String encontrado_amountPayByCheck = checkoutPage.obter_amountPayByCheck();
@@ -305,7 +305,7 @@ public class HomePageTests extends BaseTests{
 			Double encontrado_amountPayByCheck_Double = Funcoes.removeCifraoDevolveDouble(encontrado_amountPayByCheck);
 			
 			assertThat(encontrado_amountPayByCheck_Double, is(esperado_totalTaxIncTotal));
-			//Clicar na opção "I Agree"
+			//Clicar na opï¿½ï¿½o "I Agree"
 			checkoutPage.selecionarCheckboxIAgree();
 			
 			assertTrue(checkoutPage.estaSelecionadoCheckboxIAgree());
@@ -314,12 +314,12 @@ public class HomePageTests extends BaseTests{
 		
 		@Test
 		public void finalizarPedido_pedidoFinalizadoComSucesso() {
-			//pr-condição
+			//pr-condiï¿½ï¿½o
 			//checkout completamente concluido
-			IrParaCheckout_FreteMeioPagamentoEndereçoListadoOk();
+			IrParaCheckout_FreteMeioPagamentoEnderecoListadoOk();
 			
 			//Teste
-			//Clicar no botão para confirmar o pedido
+			//Clicar no botï¿½o para confirmar o pedido
 			PedidoPage pedidoPage = checkoutPage.clicarBotaoConfirmaPedido();
 			//Validar valores na tela
 			assertTrue(pedidoPage.obter_textoPedidoConfirmado().endsWith("YOU ORDER IS CONFIRMED"));
